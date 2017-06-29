@@ -1,5 +1,6 @@
-package com.how2java.pojo;
+package com.how2java;
 
+import com.how2java.mapper.CategoryMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,40 +11,37 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
- * Created by Caily on 6/29/2017.
+ * Created by Intellij IDEA
+ * Copyright (c) CailyPersonal
+ * Version: v1.0
+ * Author: Caily
+ * Date: 29/06/2017
  */
-//@SpringBootApplication
+
+@SpringBootApplication
 public class Application {
-    public static void main(String... args){
+
+    public static void main(String[] args) {
         new SpringApplicationBuilder(Application.class).web(false).run(args);
     }
 
-    //@Component
-    public static class Startup implements CommandLineRunner{
+    @Component
+    public static class Startup implements CommandLineRunner {
+
         @Override
-        public void run(String... strings) throws Exception {
+        public void run(String... args) throws Exception {
             String resource = "mybatis-config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-
             SqlSession session = sqlSessionFactory.openSession();
-            List<Category> list = session.selectList("listCategory");
+            CategoryMapper mapper = session.getMapper(CategoryMapper.class);
 
-            list.stream().forEach(c->System.out.println(c.getName()));
+            mapper.list().stream().forEach(c -> System.out.println(c.getId() + ": " + c.getName()));
 
-            Category c = new Category();
-            c.setName("New insert");
-            session.insert("addCategory",c);
-
-            session.commit();
-
-            list = session.selectList("listCategory");
-            list.stream().forEach(k->System.out.println(k.getName()));
             session.close();
         }
-
     }
+
 }

@@ -21,9 +21,12 @@ import java.util.stream.Collectors;
 
 
 public class Arguments {
+
     private static final Logger logger = LoggerFactory.getLogger(Arguments.class);
 
     public static List<Integer> parse(String... args) {
+
+        logger.debug("");
 
         // Without args from input, so read from stdin.
         if (0 == args.length) {
