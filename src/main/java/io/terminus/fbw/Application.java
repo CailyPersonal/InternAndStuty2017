@@ -15,19 +15,20 @@ import org.springframework.stereotype.Component;
  * Date: 28/06/2017
  */
 
-@SpringBootApplication
+//@SpringBootApplication
 public class Application {
     public static void main(String... args) {
         new SpringApplicationBuilder(Application.class).web(false).run(args);
     }
 
-    @Component
+    //@Component
     public static class Startup implements CommandLineRunner {
 
         @Override
         public void run(String... args) throws Exception {
             A a = new A();
             a.B(args);
+
         }
     }
 }
